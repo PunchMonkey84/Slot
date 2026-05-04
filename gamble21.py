@@ -1,3 +1,4 @@
+
 ##
 #01/04/2026
 #TS
@@ -9,11 +10,14 @@ import random
 # Making a random grid function
 def generate_grid(symbols):
     grid = []
+    for i in range(3):
+        row = random.choices(symbols, k=3)
+        grid.append(row)
     return grid
 
 def grid_print(grid):
     for row in grid:
-        print("/t".join(row))
+        print("\t".join(row))
 
 # Checking the line they want checked function
 def checking(grid, check):
@@ -36,9 +40,9 @@ def checking(grid, check):
         print("Input a valid choice!")
         return False
 
-    return False
+    return line.count(line[0]) == len(line)
 
-def play():
+def play(symbols):
     # Ways slots can be checked
     print("""
 1. First row
@@ -53,6 +57,7 @@ def play():
 
 # Making the slot machine
     slots = generate_grid(symbols)
+
 # Printing Slot machine
     for sym in slots:
         print(" | ".join(sym))
@@ -63,9 +68,10 @@ def play():
 
     if victory:
         print("You won!")
-        winnings += 100
+        return 100
     else:
         print("You lost")
+        return 0
 
 def main():
     symbols = ["🧠", "💎", "💰"]
@@ -73,7 +79,6 @@ def main():
     winnings = 0
     winnings += play(symbols)
     print(f"You have made: ${winnings}")
-
 
 if __name__ == "__main__":
     main()
