@@ -1,25 +1,31 @@
-##
-#01/04/2026
-#TS
+"""This is a slot machine file."""
+# 01/04/2026
+# TS
 
-##SLOTS##
+# SLOTS##
 
 import random
 
+
 # Making a random grid function
 def generate_grid(symbols):
+    """Return the slot machine grid."""
     grid = []
     for _ in range(3):
         row = [random.choice(symbols) for _ in range(3)]
         grid.append(row)
     return grid
 
+
 def grid_print(grid):
+    """Print the slot machine grid."""
     for row in grid:
         print("\t".join(row))
 
+
 # Checking the line they want checked function
 def checking(grid, check):
+    """Check according to the user's liking."""
     if check == 1:
         line = grid[0]
         print("Checking row 1: {}".format(line))
@@ -45,11 +51,16 @@ def checking(grid, check):
 
     return False
 
-def play(symbols):
+
+def play(symbols, money):
+    """Check if they won or not."""
     winnings = 0
 
-    # Ways slots can be checked
-    print("""
+    repeat = True
+    while repeat:
+
+        # Ways slots can be checked
+        print("""
 1. First row
 2. Second row
 3. Third row
@@ -57,33 +68,55 @@ def play(symbols):
 5. Diagonal from right bottom to left top
 """)
 
-    # Ask the user what way they want slot to be checked
-    check = int(input("Please choose the way you want the slots to be checked (1-5): "))
+        # Ask the user what way they want slot to be checked
+        check = int(input("Choose ways to be checked (1-5): "))
 
-    # Making the slot machine
-    slots = generate_grid(symbols)
+        # Making the slot machine
+        slots = generate_grid(symbols)
 
-    # Printing Slot machine
-    grid_print(slots)
-    print()
+        # Printing Slot machine
+        grid_print(slots)
+        print()
 
-    # See if the user won and tell them
-    victory = checking(slots, check)
+        # See if the user won and tell them
+        victory = checking(slots, check)
 
-    if victory:
-        print("You won!")
-        winnings += money + 100
-    else:
-        money -= 10
-        print("You lost")
+        if victory:
+            print("You won!")
+            winnings += money + 100
+        else:
+            money -= 10
+            print("You lost")
+
+        again = input("Do you want to play again? y/n: ")
+
+        if again == "y":
+            repeat = True
+        else:
+            repeat = False
 
     return winnings
 
+
 def main():
+    """Run the Slot machine."""
+    # Profile details
+    winnings = 0
+    name = input("Enter your name: ")
+    age = input("Enter age: ")
     money = int(input("How much money are you betting for $100: "))
+
     symbols = ["🧠", "💎", "💰"]
-    winnings += play(symbols)
+    winnings += play(symbols, money)
     print(f"You have made: ${winnings}")
+
+    # Profile
+    profile = {
+        "name": name,
+        "age": age,
+        "money": winnings}
+    print(profile)
+
 
 if __name__ == "__main__":
     main()
